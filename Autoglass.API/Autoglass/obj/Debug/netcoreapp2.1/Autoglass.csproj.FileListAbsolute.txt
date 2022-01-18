@@ -1,0 +1,14 @@
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\bin\Debug\netcoreapp2.1\Autoglass.deps.json
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\bin\Debug\netcoreapp2.1\Autoglass.runtimeconfig.json
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\bin\Debug\netcoreapp2.1\Autoglass.runtimeconfig.dev.json
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\bin\Debug\netcoreapp2.1\Autoglass.dll
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\bin\Debug\netcoreapp2.1\Autoglass.pdb
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.csproj.CoreCompileInputs.cache
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.RazorAssemblyInfo.cache
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.RazorAssemblyInfo.cs
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.AssemblyInfoInputs.cache
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.AssemblyInfo.cs
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.RazorTargetAssemblyInfo.cache
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.dll
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.pdb
+C:\Users\Glauber Dantas\source\repos\Autoglass.API\Autoglass\obj\Debug\netcoreapp2.1\Autoglass.csprojAssemblyReference.cache

@@ -1,0 +1,41 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Proposta de prova(Delphi)'
+  ClientHeight = 299
+  ClientWidth = 852
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MenuAutoglass
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 13
+  object MenuAutoglass: TMainMenu
+    Left = 80
+    Top = 112
+    object Cadastros1: TMenuItem
+      Caption = '&Cadastros'
+      object Fornecedores1: TMenuItem
+        Caption = '&Fornecedores'
+        OnClick = Fornecedores1Click
+      end
+      object Produtos1: TMenuItem
+        Caption = '&Produtos'
+        OnClick = Produtos1Click
+      end
+    end
+    object Relatrios1: TMenuItem
+      Caption = '&Relat'#243'rios'
+      object ProdutoseFornecedores1: TMenuItem
+        Caption = '&Produtos e Fornecedores'
+        OnClick = ProdutoseFornecedores1Click
+      end
+    end
+  end
+end

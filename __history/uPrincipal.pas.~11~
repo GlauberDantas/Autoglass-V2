@@ -1,0 +1,58 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmPrincipal = class(TForm)
+    MenuAutoglass: TMainMenu;
+    Cadastros1: TMenuItem;
+    Fornecedores1: TMenuItem;
+    Produtos1: TMenuItem;
+    Relatrios1: TMenuItem;
+    DBGrid1: TDBGrid;
+    procedure Fornecedores1Click(Sender: TObject);
+    procedure Produtos1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+  qryteste : TFDQuery;
+
+implementation
+
+uses
+  uCadastroFornecedor, uCadastroProdutos, udmAutoglass;;
+
+{$R *.dfm}
+
+procedure TfrmPrincipal.Fornecedores1Click(Sender: TObject);
+begin
+  try
+    frmCadastroFornecedor := TfrmCadastroFornecedor.Create(nil);
+    frmCadastroFornecedor.ShowModal;
+  finally
+    FreeAndNil(frmCadastroFornecedor);
+  end;
+end;
+
+procedure TfrmPrincipal.Produtos1Click(Sender: TObject);
+begin
+  try
+    frmCadastroProduto := TfrmCadastroProduto.Create(nil);
+    frmCadastroProduto.ShowModal;
+  finally
+    FreeAndNil(frmCadastroProduto);
+  end;
+end;
+
+end.

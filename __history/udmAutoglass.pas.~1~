@@ -1,0 +1,25 @@
+unit udmAutoglass;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TdmAutoglass = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmAutoglass: TdmAutoglass;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

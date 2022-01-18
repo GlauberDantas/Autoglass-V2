@@ -1,0 +1,354 @@
+unit uCadastroProdutos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.WinXPickers, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.ComCtrls;
+
+const
+  C_INCLUIR   = 0;
+  C_ALTERAR   = 1;
+  C_EXCLUIR   = 2;
+
+type
+  TfrmCadastroProduto = class(TForm)
+    pnlCentral: TPanel;
+    lblProduto: TLabel;
+    lblDataFab: TLabel;
+    edtProduto: TEdit;
+    pnlInferior: TPanel;
+    btnGravar: TButton;
+    btnCancelarSair: TButton;
+    rgSituacaoProduto: TRadioGroup;
+    lblDataVal: TLabel;
+    lblFornecedor: TLabel;
+    cmbFornecedor: TComboBox;
+    dtpDataFab: TDateTimePicker;
+    dtpDataVal: TDateTimePicker;
+    rgOperacaoTela: TRadioGroup;
+    lblCodigoFornecedor: TLabel;
+    edtCodigoProduto: TEdit;
+    procedure btnCancelarSairClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure rgOperacaoTelaClick(Sender: TObject);
+    procedure edtCodigoProdutoExit(Sender: TObject);
+  private
+    { Private declarations }
+    procedure CarregaCombo();
+    procedure MontaAmbienteInicial();
+    procedure GravaDados(sProduto :string; iFornecedor : Integer;
+                         dDataFab : TDate; dDataVal : TDate; iSituacao : integer);
+    procedure AlteraDados(sCodProduto : string; sProduto :string; iFornecedor : Integer;
+                          dDataFab : TDate; dDataVal : TDate; iSituacao : integer);
+    procedure ApagaDados(sCodigoProduto : string);
+    function ValidaInformacoes() : Boolean;
+    function BooleanToInt(bResult : Boolean) : Integer;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastroProduto: TfrmCadastroProduto;
+
+  qryGravaDados : TFDQuery;
+
+implementation
+
+uses
+  udmAutoglass;
+
+{$R *.dfm}
+
+procedure TfrmCadastroProduto.AlteraDados(sCodProduto : string; sProduto: string;
+  iFornecedor: Integer; dDataFab, dDataVal: TDate; iSituacao: integer);
+var
+  qryAlteraDados : TFDQuery;
+begin
+  try
+    try
+      qryAlteraDados := TFDQuery.Create(nil);
+      qryAlteraDados.Connection := dmAutoglass.Connection;
+
+      qryAlteraDados.Close;
+      qryAlteraDados.SQL.Clear;
+      qryAlteraDados.SQL.Add(' UPDATE tbProduto ');
+      qryAlteraDados.SQL.Add('    SET tbProduto_descricao        = ' + QuotedStr(sProduto));
+      qryAlteraDados.SQL.Add('        , tbProduto_DataFabricacao = ' + QuotedStr(FormatDateTime('YYYY-MM-DD',dDataFab)));
+      qryAlteraDados.SQL.Add('        , tbProduto_DataValidade   = ' + QuotedStr(FormatDateTime('YYYY-MM-DD',dDataVal)));
+      qryAlteraDados.SQL.Add('        , tbProduto_Situacao       = ' + IntToStr(iSituacao));
+      qryAlteraDados.SQL.Add('        , tbFornecedor_Id          = ' + IntToStr(iFornecedor));
+      qryAlteraDados.SQL.Add(' WHERE ');
+      qryAlteraDados.SQL.Add('    tbProduto_id = ' + QuotedStr(sCodProduto));
+      qryAlteraDados.ExecSQL;
+
+      MessageDlg('Produto alterado com sucesso.', mtInformation, [mbOk], 0);
+    except
+      On E:Exception do
+      begin
+        MessageDlg('Ocorreu um erro durante a execução do método AlteraDados, erro: '+E.Message, mtError, [mbOk], 0);
+        exit;
+      end;
+    end;
+  finally
+    FreeAndNil(qryAlteraDados);
+  end;
+end;
+
+procedure TfrmCadastroProduto.ApagaDados(sCodigoProduto: string);
+var
+  qryApagaDados : TFDQuery;
+begin
+  try
+    try
+      qryApagaDados := TFDQuery.Create(nil);
+      qryApagaDados.Connection := dmAutoglass.Connection;
+
+      if MessageDlg('Você tem certeza que deseja excluir o produto ' + edtProduto.Text +'?'+ #13 +
+                    'Essa ação será irreverssível', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      begin
+
+        qryApagaDados.Close;
+        qryApagaDados.SQL.Clear;
+        qryApagaDados.SQL.Add(' DELETE FROM tbProduto WHERE tbProduto_Id = ' + QuotedStr(sCodigoProduto));
+        qryApagaDados.ExecSQL;
+
+        MessageDlg('Produto excluído com sucesso.', mtInformation, [mbOk], 0);
+        MontaAmbienteInicial();
+      end;
+    except
+      on E:Exception do
+      begin
+        MessageDlg('Ocorreu um erro durante a execução do método ApagaDados, erro: '+E.Message, mtError, [mbOk], 0);
+        exit;
+      end;
+    end;
+  finally
+    FreeAndNil(qryApagaDados);
+  end;
+end;
+
+function TfrmCadastroProduto.BooleanToInt(bResult: Boolean): Integer;
+begin
+  if bResult then
+    Result := 1
+  else
+    Result := 0;
+end;
+
+procedure TfrmCadastroProduto.btnCancelarSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmCadastroProduto.btnGravarClick(Sender: TObject);
+var
+  iFornecedor : Integer;
+begin
+  try
+    if (rgOperacaoTela.ItemIndex = C_INCLUIR) then
+    begin
+      if ValidaInformacoes then
+      begin
+        iFornecedor := Integer(cmbFornecedor.Items.Objects[cmbFornecedor.ItemIndex]);
+        GravaDados(edtProduto.Text, iFornecedor, dtpDataFab.Date, dtpDataVal.Date, rgSituacaoProduto.ItemIndex);
+      end;
+    end else
+    if (rgOperacaoTela.ItemIndex = C_ALTERAR) then
+    begin
+      if ValidaInformacoes then
+      begin
+        iFornecedor := Integer(cmbFornecedor.Items.Objects[cmbFornecedor.ItemIndex]);
+        AlteraDados(edtCodigoProduto.Text, edtProduto.Text, iFornecedor, dtpDataFab.Date, dtpDataVal.Date, rgSituacaoProduto.ItemIndex);
+        MontaAmbienteInicial;
+      end;
+    end else
+    if (rgOperacaoTela.ItemIndex = C_EXCLUIR) then
+    begin
+      ApagaDados(edtCodigoProduto.Text);
+      MontaAmbienteInicial;
+    end else
+    begin
+      edtCodigoProdutoExit(edtCodigoProduto);
+    end;
+
+  except
+    on E:Exception do
+    begin
+      MessageDlg('Ocorreu um erro durante o processo de gravação, erro: ' + E.Message + '.', mtWarning, [mbOk], 0);
+    end;
+  end;
+end;
+
+procedure TfrmCadastroProduto.CarregaCombo;
+var
+  qryCarregaCombo : TFDQuery;
+begin
+  try
+    qryCarregaCombo := TFDQuery.Create(nil);
+    qryCarregaCombo.Connection := dmAutoglass.Connection;
+
+    qryCarregaCombo.Close;
+    qryCarregaCombo.SQL.Clear;
+    qryCarregaCombo.SQL.Add(' SELECT ');
+  	qryCarregaCombo.SQL.Add('   tbFornecedor_Id, tbFornecedor_Descricao ');
+    qryCarregaCombo.SQL.Add(' FROM ');
+  	qryCarregaCombo.SQL.Add('   tbFornecedor ');
+    qryCarregaCombo.SQL.Add(' ORDER BY ');
+    qryCarregaCombo.SQL.Add('  	tbFornecedor_Descricao');
+    qryCarregaCombo.Open();
+
+    while (not qryCarregaCombo.Eof ) do
+    begin
+      cmbFornecedor.Items.AddObject(qryCarregaCombo.FieldByName('tbFornecedor_Descricao').AsString, TObject(qryCarregaCombo.FieldByname('tbFornecedor_Id').AsInteger));
+
+      qryCarregaCombo.Next
+    end;
+    cmbFornecedor.ItemIndex := -1;
+  finally
+    FreeAndNil(qryCarregaCombo);
+  end;
+end;
+
+procedure TfrmCadastroProduto.edtCodigoProdutoExit(Sender: TObject);
+var
+  qryConsultaRegistros : TFDQuery;
+begin
+  try
+    qryConsultaRegistros := TFDQuery.Create(nil);
+    qryConsultaRegistros.Connection := dmAutoglass.Connection;
+
+    qryConsultaRegistros.Close;
+    qryConsultaRegistros.SQL.Clear;
+    qryConsultaRegistros.SQL.Add(' SELECT ');
+  	qryConsultaRegistros.SQL.Add('   p.tbProduto_id, p.tbProduto_descricao, p.tbProduto_Situacao, p.tbProduto_DataFabricacao, p.tbProduto_DataValidade, p.tbFornecedor_Id, f.tbFornecedor_Descricao  ');
+    qryConsultaRegistros.SQL.Add(' FROM ');
+  	qryConsultaRegistros.SQL.Add('   tbProduto p');
+    qryConsultaRegistros.SQL.Add('   inner join tbFornecedor f on f.tbFornecedor_Id = p.tbFornecedor_Id ');
+ 	  qryConsultaRegistros.SQL.Add(' WHERE ');
+    qryConsultaRegistros.SQL.Add('   p.tbProduto_id = ' + QuotedStr(edtCodigoProduto.Text));
+    qryConsultaRegistros.SQL.Add(' ORDER BY ');
+    qryConsultaRegistros.SQL.Add('  	p.tbProduto_descricao');
+    qryConsultaRegistros.Open();
+
+    if not qryConsultaRegistros.IsEmpty then
+    begin
+      edtCodigoProduto.Text       := qryConsultaRegistros.FieldByName('tbProduto_id').AsString;
+      edtProduto.Text             := qryConsultaRegistros.FieldByName('tbProduto_descricao').AsString;
+      cmbFornecedor.ItemIndex     := cmbFornecedor.Items.IndexOf(qryConsultaRegistros.FieldByName('tbFornecedor_Descricao').AsString);
+      dtpDataFab.Date             := qryConsultaRegistros.FieldByName('tbProduto_DataFabricacao').AsDateTime;
+      dtpDataVal.Date             := qryConsultaRegistros.FieldByName('tbProduto_DataValidade').AsDateTime;
+      rgSituacaoProduto.ItemIndex := BooleanToInt(qryConsultaRegistros.FieldByName('tbProduto_Situacao').AsBoolean);
+    end;
+
+  finally
+    FreeAndNil(qryConsultaRegistros);
+  end;
+end;
+
+procedure TfrmCadastroProduto.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  FreeAndNil(qryGravaDados);
+end;
+
+procedure TfrmCadastroProduto.FormCreate(Sender: TObject);
+begin
+  CarregaCombo();
+
+  qryGravaDados := TFDQuery.Create(nil);
+  qryGravaDados.Connection := dmAutoglass.Connection;
+end;
+
+procedure TfrmCadastroProduto.GravaDados(sProduto: string; iFornecedor: Integer;
+  dDataFab, dDataVal: TDate; iSituacao: integer);
+begin
+  try
+    try
+      qryGravaDados.Close;
+      qryGravaDados.SQL.Clear;
+      qryGravaDados.SQL.Add(' INSERT INTO tbProduto(tbProduto_descricao,tbProduto_Situacao,tbProduto_DataFabricacao,tbProduto_DataValidade,tbFornecedor_Id)');
+      qryGravaDados.SQL.Add(' VALUES (' + QuotedStr(sProduto));
+      qryGravaDados.SQL.Add('        ,' + IntToStr(iSituacao));
+      qryGravaDados.SQL.Add('        ,' + QuotedStr(FormatDateTime('YYYY-MM-DD',dDataFab)));
+      qryGravaDados.SQL.Add('        ,' + QuotedStr(FormatDateTime('YYYY-MM-DD',dDataVal)));
+      qryGravaDados.SQL.Add('        ,' + IntToStr(iFornecedor));
+      qryGravaDados.SQL.Add('        )');
+      qryGravaDados.ExecSQL;
+    except
+      On E:Exception do
+      begin
+        MessageDlg('Ocorreu um erro durante a execução do método GravaDados, erro: '+E.Message, mtError, [mbOk], 0);
+        exit;
+      end;
+    end;
+  finally
+    MessageDlg('O Produto '+sProduto+' foi gravado com sucesso!', mtInformation, [mbOk], 0);
+    MontaAmbienteInicial;
+  end;
+end;
+
+procedure TfrmCadastroProduto.MontaAmbienteInicial;
+begin
+  edtCodigoProduto.Clear;
+  edtProduto.Clear;
+  cmbFornecedor.ItemIndex := -1;
+  rgSituacaoProduto.ItemIndex := 0;
+end;
+
+procedure TfrmCadastroProduto.rgOperacaoTelaClick(Sender: TObject);
+begin
+  if rgOperacaoTela.ItemIndex = C_INCLUIR then
+  begin
+    edtCodigoProduto.Enabled := False;
+    btnGravar.Caption := 'Gravar';
+  end else
+  if rgOperacaoTela.ItemIndex = C_ALTERAR then
+  begin
+    edtCodigoProduto.Enabled := True;
+    btnGravar.Caption := 'Alterar';
+  end else
+  if rgOperacaoTela.ItemIndex = C_EXCLUIR then
+  begin
+    edtCodigoProduto.Enabled := True;
+    btnGravar.Caption := 'Excluir';
+  end else
+  begin
+    edtCodigoProduto.Enabled := True;
+    btnGravar.Caption := 'Consultar';
+  end;
+end;
+
+function TfrmCadastroProduto.ValidaInformacoes: Boolean;
+begin
+  Result:= True;
+
+  if (edtProduto.Text = EmptyStr) then
+  begin
+    MessageDlg('Por favor, preencha a descrição do produto.', mtWarning, [mbOk], 0);
+    Result := False;
+    Exit;
+  end;
+
+  if (cmbFornecedor.ItemIndex < 0) then
+  begin
+    MessageDlg('Por favor, selecione um fornecedor.', mtWarning, [mbOk], 0);
+    Result := False;
+    Exit;
+  end;
+
+  if (dtpDataFab.Date > dtpDataVal.date) then
+  begin
+    MessageDlg('A data de fabricação não pode ser superior a data de validade.', mtWarning, [mbOk], 0);
+    Result := False;
+    Exit;
+  end;
+end;
+
+end.

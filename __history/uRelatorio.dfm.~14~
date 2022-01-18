@@ -1,0 +1,193 @@
+object frmRelatorio: TfrmRelatorio
+  Left = 0
+  Top = 0
+  Caption = 'Relat'#243'rio de Produtos e Fornecedores'
+  ClientHeight = 299
+  ClientWidth = 796
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlGeral: TPanel
+    Left = 0
+    Top = 0
+    Width = 796
+    Height = 258
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = 56
+    ExplicitTop = 160
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object DBGrid1: TDBGrid
+      Left = 7
+      Top = 10
+      Width = 778
+      Height = 241
+      DataSource = dsRelatorioProdutoFornecedor
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'tbProduto_id'
+          Title.Caption = 'C'#243'digo do Produto'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'tbProduto_descricao'
+          Title.Caption = 'Descri'#231#227'o do Produto'
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'tbProduto_DataFabricacao'
+          Title.Caption = 'Data de Fabricacao'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'tbProduto_DataValidade'
+          Title.Caption = 'Data de Validade'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'tbFornecedor_Id'
+          Title.Caption = 'C'#243'digo do Fornecedor'
+          Width = 120
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'tbFornecedor_Descricao'
+          Title.Caption = 'Descri'#231#227'o do Fornecedor'
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          Visible = True
+        end>
+    end
+  end
+  object pnlInferior: TPanel
+    Left = 0
+    Top = 258
+    Width = 796
+    Height = 41
+    Align = alBottom
+    TabOrder = 1
+    ExplicitLeft = 56
+    ExplicitTop = 160
+    ExplicitWidth = 185
+    object Button1: TButton
+      Left = 710
+      Top = 6
+      Width = 75
+      Height = 25
+      Caption = '&Sair'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 7
+      Top = 8
+      Width = 113
+      Height = 25
+      Caption = '&Gerar Relat'#243'rio'
+      TabOrder = 1
+      OnClick = Button2Click
+    end
+  end
+  object RESTClient1: TRESTClient
+    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
+    AcceptCharset = 'UTF-8, *;q=0.8'
+    BaseURL = 'https://localhost:44388/api/values'
+    Params = <>
+    HandleRedirects = True
+    RaiseExceptionOn500 = False
+    Left = 304
+    Top = 96
+  end
+  object RESTRequest1: TRESTRequest
+    Client = RESTClient1
+    Params = <>
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 384
+    Top = 96
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 464
+    Top = 96
+  end
+  object RESTResponseDataSetAdapter1: TRESTResponseDataSetAdapter
+    Dataset = FDMemTable1
+    FieldDefs = <>
+    ResponseJSON = RESTResponse1
+    Left = 592
+    Top = 96
+  end
+  object FDMemTable1: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    StoreDefs = True
+    Left = 712
+    Top = 96
+    object FDMemTable1tbProduto_id: TWideStringField
+      FieldName = 'tbProduto_id'
+      Size = 255
+    end
+    object FDMemTable1tbProduto_descricao: TWideStringField
+      FieldName = 'tbProduto_descricao'
+      Size = 255
+    end
+    object FDMemTable1tbProduto_DataFabricacao: TWideStringField
+      FieldName = 'tbProduto_DataFabricacao'
+      Size = 255
+    end
+    object FDMemTable1tbProduto_DataValidade: TWideStringField
+      FieldName = 'tbProduto_DataValidade'
+      Size = 255
+    end
+    object FDMemTable1tbFornecedor_Id: TWideStringField
+      FieldName = 'tbFornecedor_Id'
+      Size = 255
+    end
+    object FDMemTable1tbFornecedor_Descricao: TWideStringField
+      FieldName = 'tbFornecedor_Descricao'
+      Size = 255
+    end
+    object FDMemTable1tbFornecedor_Cidade: TWideStringField
+      FieldName = 'tbFornecedor_Cidade'
+      Size = 255
+    end
+  end
+  object dsRelatorioProdutoFornecedor: TDataSource
+    DataSet = FDMemTable1
+    Left = 368
+    Top = 184
+  end
+end

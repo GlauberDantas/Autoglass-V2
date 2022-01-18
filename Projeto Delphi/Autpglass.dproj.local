@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/12/22 23:52:40.000.908,=C:\Users\Glauber Dantas\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/12/22 23:53:28.000.774,D:\Autoglass\uPrincipal.dfm=C:\Users\Glauber Dantas\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2021/12/22 23:53:28.000.774,D:\Autoglass\uPrincipal.pas=C:\Users\Glauber Dantas\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/12/22 23:53:44.000.010,D:\Autoglass\Autpglass.dproj=C:\Users\Glauber Dantas\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2021/12/25 13:51:52.000.342,=D:\Autoglass\Unit1.pas</Transaction>
+    <Transaction>2021/12/25 13:52:47.000.911,D:\Autoglass\udmAutoglass.pas=D:\Autoglass\Unit1.pas</Transaction>
+    <Transaction>2021/12/25 13:52:47.000.912,D:\Autoglass\udmAutoglass.dfm=D:\Autoglass\Unit1.dfm</Transaction>
+    <Transaction>2021/12/25 15:46:12.000.374,=D:\Autoglass\Unit1.pas</Transaction>
+    <Transaction>2021/12/25 15:46:19.000.332,=D:\Autoglass\Unit2.pas</Transaction>
+    <Transaction>2021/12/25 15:47:00.000.766,D:\Autoglass\uCadastroFornecedor.dfm=D:\Autoglass\Unit1.dfm</Transaction>
+    <Transaction>2021/12/25 15:47:00.000.766,D:\Autoglass\uCadastroFornecedor.pas=D:\Autoglass\Unit1.pas</Transaction>
+    <Transaction>2021/12/25 18:18:05.000.662,D:\Autoglass\uCadastroProdutos.dfm=D:\Autoglass\Unit2.dfm</Transaction>
+    <Transaction>2021/12/25 18:18:05.000.662,D:\Autoglass\uCadastroProdutos.pas=D:\Autoglass\Unit2.pas</Transaction>
+    <Transaction>2021/12/27 19:38:19.000.762,=D:\Autoglass\Unit1.pas</Transaction>
+    <Transaction>2021/12/27 19:49:08.000.807,D:\Autoglass\Unit1.dfm=D:\Autoglass\uRelatorio.dfm</Transaction>
+    <Transaction>2021/12/27 19:49:08.000.807,D:\Autoglass\Unit1.pas=D:\Autoglass\uRelatorio.pas</Transaction>
+  </Transactions>
+</BorlandProject>

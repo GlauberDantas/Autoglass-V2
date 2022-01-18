@@ -1,0 +1,5 @@
+object dmAutoglass: TdmAutoglass
+  OldCreateOrder = False
+  Height = 389
+  Width = 566
+end

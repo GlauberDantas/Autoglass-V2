@@ -1,0 +1,59 @@
+unit uRelatorio;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, IPPeerClient, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  REST.Response.Adapter, REST.Client, Data.Bind.Components,
+  Data.Bind.ObjectScope;
+
+type
+  TfrmRelatorio = class(TForm)
+    pnlGeral: TPanel;
+    pnlInferior: TPanel;
+    Button1: TButton;
+    Button2: TButton;
+    DBGrid1: TDBGrid;
+    RESTClient1: TRESTClient;
+    RESTRequest1: TRESTRequest;
+    RESTResponse1: TRESTResponse;
+    RESTResponseDataSetAdapter1: TRESTResponseDataSetAdapter;
+    FDMemTable1: TFDMemTable;
+    FDMemTable1tbProduto_id: TWideStringField;
+    FDMemTable1tbProduto_descricao: TWideStringField;
+    FDMemTable1tbProduto_DataFabricacao: TWideStringField;
+    FDMemTable1tbProduto_DataValidade: TWideStringField;
+    FDMemTable1tbFornecedor_Id: TWideStringField;
+    FDMemTable1tbFornecedor_Descricao: TWideStringField;
+    FDMemTable1tbFornecedor_Cidade: TWideStringField;
+    dsRelatorioProdutoFornecedor: TDataSource;
+    procedure Button2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRelatorio: TfrmRelatorio;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmRelatorio.Button1Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmRelatorio.Button2Click(Sender: TObject);
+begin
+  RESTRequest1.Execute;
+end;
+
+end.

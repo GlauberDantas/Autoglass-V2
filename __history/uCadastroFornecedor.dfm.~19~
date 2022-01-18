@@ -1,0 +1,104 @@
+object frmCadastroFornecedor: TfrmCadastroFornecedor
+  Left = 0
+  Top = 0
+  Caption = 'Cadastro de Fornecedores'
+  ClientHeight = 197
+  ClientWidth = 409
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlCentral: TPanel
+    Left = 0
+    Top = 0
+    Width = 409
+    Height = 156
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = 168
+    ExplicitTop = 96
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object lblFornecedor: TLabel
+      Left = 16
+      Top = 58
+      Width = 117
+      Height = 13
+      Caption = 'Descri'#231#227'o do fornecedor'
+    end
+    object lblCidadeForneceor: TLabel
+      Left = 16
+      Top = 105
+      Width = 104
+      Height = 13
+      Caption = 'Cidade do fornecedor'
+    end
+    object edtFornecedor: TEdit
+      Left = 16
+      Top = 74
+      Width = 377
+      Height = 21
+      MaxLength = 100
+      TabOrder = 0
+    end
+    object cmbCidade: TComboBox
+      Left = 16
+      Top = 121
+      Width = 377
+      Height = 21
+      TabOrder = 1
+    end
+    object RadioGroup1: TRadioGroup
+      Left = 1
+      Top = 1
+      Width = 407
+      Height = 51
+      Align = alTop
+      Columns = 4
+      ItemIndex = 0
+      Items.Strings = (
+        'Incluir'
+        'Alterar'
+        'Excluir'
+        'Consultar')
+      TabOrder = 2
+    end
+  end
+  object pnlInferior: TPanel
+    Left = 0
+    Top = 156
+    Width = 409
+    Height = 41
+    Align = alBottom
+    TabOrder = 1
+    ExplicitLeft = 160
+    ExplicitTop = 256
+    ExplicitWidth = 185
+    object btnGravar: TButton
+      Left = 16
+      Top = 6
+      Width = 75
+      Height = 25
+      Caption = '&Gravar'
+      TabOrder = 0
+      OnClick = btnGravarClick
+    end
+    object btnCancelarSair: TButton
+      Left = 293
+      Top = 6
+      Width = 99
+      Height = 25
+      Caption = '&Cancelar / Sair'
+      TabOrder = 1
+      OnClick = btnCancelarSairClick
+    end
+  end
+end

@@ -1,0 +1,75 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls;
+
+type
+  TfrmPrincipal = class(TForm)
+    MenuAutoglass: TMainMenu;
+    Cadastros1: TMenuItem;
+    Fornecedores1: TMenuItem;
+    Produtos1: TMenuItem;
+    Relatrios1: TMenuItem;
+    DBGrid1: TDBGrid;
+    Button1: TButton;
+    procedure Fornecedores1Click(Sender: TObject);
+    procedure Produtos1Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+  qryteste : TFDQuery;
+
+implementation
+
+uses
+  uCadastroFornecedor, uCadastroProdutos, udmAutoglass;;
+
+{$R *.dfm}
+
+procedure TfrmPrincipal.Button1Click(Sender: TObject);
+var
+  LJsonObj   : TJSONObject;
+  LJsonValue : TJSONValue;
+begin
+    mydata := GetURLAsString('https://localhost:44388/api/values');
+    LJsonObj    := TJSONObject.ParseJSONValue(TEncoding.Default.GetBytes(mydata),0) as TJSONObject;
+  try
+     LJsonValue := LJsonObj.Get('last').JsonValue;
+     Label1.Text:= LJsonValue.Value;
+  finally
+     LJsonObj.Free;
+  end;
+end;
+
+procedure TfrmPrincipal.Fornecedores1Click(Sender: TObject);
+begin
+  try
+    frmCadastroFornecedor := TfrmCadastroFornecedor.Create(nil);
+    frmCadastroFornecedor.ShowModal;
+  finally
+    FreeAndNil(frmCadastroFornecedor);
+  end;
+end;
+
+procedure TfrmPrincipal.Produtos1Click(Sender: TObject);
+begin
+  try
+    frmCadastroProduto := TfrmCadastroProduto.Create(nil);
+    frmCadastroProduto.ShowModal;
+  finally
+    FreeAndNil(frmCadastroProduto);
+  end;
+end;
+
+end.

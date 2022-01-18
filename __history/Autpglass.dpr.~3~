@@ -1,0 +1,16 @@
+program Autpglass;
+
+uses
+  Vcl.Forms,
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  udmAutoglass in 'udmAutoglass.pas' {dmAutoglass: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TdmAutoglass, dmAutoglass);
+  Application.Run;
+end.
